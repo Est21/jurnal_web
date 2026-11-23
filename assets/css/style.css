@@ -220,3 +220,7 @@ section { padding-block: var(--section); }
   .reveal { opacity: 1; transform: none; transition: none; }
   .btn, .chip, .bar { transition: none; }
 }
+
+.f--wide { grid-column: span 8; }
+@media (max-width: 900px) { .f--wide { grid-column: span 12; } }
+@media (min-width: 901px) and (max-width: 1100px) { .f--wide { grid-column: span 12; } }
