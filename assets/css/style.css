@@ -123,17 +123,31 @@ p { margin: 0; text-wrap: pretty; }
 .hero__lead { max-width: 46ch; margin: var(--space-5) auto 0; font-size: 1.2rem; color: var(--text-muted); }
 .cta { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin-top: var(--space-6); }
 .hero__note { margin-top: var(--space-4); font-size: 0.875rem; color: var(--text-dim); }
-.stage { position: relative; margin-top: clamp(3rem, 7vw, 5rem); }
-.stage .shot--desktop { width: min(100%, 62rem); margin-inline: auto; }
-.stage .shot--phone { position: absolute; right: 0; bottom: -2rem; width: clamp(7rem, 17vw, 12rem); }
-@media (max-width: 700px) { .stage .shot--phone { display: none; } }
+.stage { position: relative; margin-top: clamp(3rem, 7vw, 5rem); padding-bottom: var(--space-6); }
+/* Masaüstü sola yaslanır; telefon açılan boşluğa taşar, pencerenin yalnızca köşesini örter. */
+.stage .shot--desktop { width: min(100% - 9rem, 61rem); }
+.stage .shot--phone { position: absolute; right: 6px; bottom: 0; width: clamp(11rem, 23vw, 16.5rem); }
+@media (max-width: 700px) {
+  .stage { padding-bottom: 0; }
+  .stage .shot--desktop { width: 100%; }
+  .stage .shot--phone { display: none; }
+}
 
 /* ---------- Ekran görüntüsü çerçevesi ---------- */
 .shot { margin: 0; position: relative; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--surface); box-shadow: var(--shadow-lift); overflow: hidden; }
 .shot--desktop { aspect-ratio: 16 / 10; }
-.shot--phone { aspect-ratio: 9 / 19; border-radius: 22px; }
 .shot--wide { aspect-ratio: 16 / 10; }
 .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+/* Telefon (büyük "Ultra" gövde): düz titanyum kenar, ince eşit siyah çerçeve, keskin köşe,
+   sağda yan tuşlar. Orta-açık metal hem açık/koyu zeminden hem koyu masaüstü görüntüsünden
+   ayrılır. Ekran kırpılmaz; yüksekliği 19,5:9 oranı belirler. */
+.shot--phone { overflow: visible; padding: 4px; border: 4px solid oklch(0.7 0.012 75); border-radius: 10.5% / 4.9%; background: oklch(0.06 0.003 70); box-shadow: 0 0 0 1px oklch(0.46 0.012 70), inset 0 0 0 1px oklch(0.32 0.008 70), 0 32px 64px oklch(0.1 0.012 60 / 0.42), 0 10px 22px oklch(0.1 0.012 60 / 0.26); }
+.shot--phone img { position: static; display: block; height: auto; aspect-ratio: 9 / 19.5; border-radius: 7.5% / 3.5%; }
+.shot--phone:has(img.missing) { aspect-ratio: 9 / 19.5; }
+/* Ses tuşu (uzun) ve güç tuşu (kısa): aradaki saydam dilim iki ayrı parça yapar. */
+.shot--phone::before { content: ""; position: absolute; left: calc(100% + 4px); top: 19%; width: 4px; height: 22%; border-radius: 0 3px 3px 0; background: linear-gradient(oklch(0.62 0.012 75) 0 56%, transparent 56% 68%, oklch(0.62 0.012 75) 68% 100%); }
+/* Ön kamera deliği: durum çubuğunun ortasında. */
+.shot--phone::after { content: ""; position: absolute; top: calc(4px + 1.35%); left: 50%; width: 3.8%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: oklch(0.04 0 0); box-shadow: 0 0 0 1px oklch(0.28 0.008 70); }
 .shot__ph { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: var(--space-4); color: var(--text-dim); font: 500 0.8125rem/1.5 var(--sans); background: var(--chrome); }
 .shot img:not(.missing) ~ .shot__ph { display: none; }
 .shot img.missing { display: none; }
